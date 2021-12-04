@@ -1,0 +1,1 @@
+# snipet-aws-go-dynamo-query
