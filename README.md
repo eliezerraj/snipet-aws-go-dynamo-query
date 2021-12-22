@@ -5,7 +5,7 @@ Dynamo queries in GO
 How to use
 
 1. Create a go module
-go mod init github/snipet-aws-go-dynamo-create-query/main
+go mod init github.com/snipet-aws-go-dynamo-create-query/main
 
 2. Create a config.yaml with your secrets in the root
 AWS_REGION: "AWS_REGION"
@@ -13,7 +13,7 @@ AWS_ACCESS_ID: "AWS_ACCESS_ID"
 AWS_ACCESS_SECRET: "AWS_ACCESS_SECRET"
 
 3. Load data
-go run . --option load_invoice --table InvoiceT
+go run . --option load_invoice --table Invoice_Tenant
 
 4. Query data only pk
 aws dynamodb query --table-name Invoice_t \

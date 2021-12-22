@@ -11,7 +11,7 @@ type Order struct {
 type Invoice struct {
 	Pk      		 string     `json:"pk,omitempty"`
 	Sk    		 	 string  	`json:"sk,omitempty"`
-	Tenant           string 	`json:"pk_gsi,omitmepty"`  
+	Tenant           string 	`json:"tenant_gsi,omitmepty"`  
 	Amount 			 float32    `json:"amount,omitempty"` 
 	Sku 			 string 	`json:"sku,omitempty"`
 	Name			 string 	`json:"name,omitempty"`

@@ -16,10 +16,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 
-	repository "github/snipet-aws-go-dynamo-create-query/main/repository"
-	service "github/snipet-aws-go-dynamo-create-query/main/service"
-	entity "github/snipet-aws-go-dynamo-create-query/main/entity"
-
+	entity "github.com/snipet-aws-go-dynamo-create-query/main/entity"
+	service "github.com/snipet-aws-go-dynamo-create-query/main/service"
+	repository "github.com/snipet-aws-go-dynamo-create-query/main/repository"
 )
 
 func main(){
@@ -63,11 +62,12 @@ func main(){
 		
 		for i:=0; i < 1; i++{
 			f := faker.New()
+			tenant := "tenant-"+ strconv.Itoa(randon_t)
 
 			invoice := entity.Invoice{}
 			invoice.Pk = "invoice-" + strconv.Itoa(randon_i)
 			invoice.Sk = "customer-" + strconv.Itoa(randon_c)
-			invoice.Name = f.Person().Name()
+			invoice.Name = "Ms. Customer Acme " + strconv.Itoa(randon_i)//f.Person().Name()
 			invoice.Tenant = "tenant-"+ strconv.Itoa(randon_t)
 
 			fmt.Println(invoice)
@@ -84,7 +84,7 @@ func main(){
 				 invoice = entity.Invoice{}
 				 invoice.Pk = "invoice-" + strconv.Itoa(randon_i)
 				 invoice.Sk = "order-" + strconv.Itoa(randon_o)
-				 invoice.Tenant = "tenant-"+ strconv.Itoa(randon_t)
+				 invoice.Tenant = tenant
 				 invoice.Sku  =  "sku-" + strconv.Itoa(rand.Intn(100))
 				 invoice.Name = f.Car().Model()
 				 invoice.Qtd  = rand.Intn(3) + 1
