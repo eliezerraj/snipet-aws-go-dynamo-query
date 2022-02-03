@@ -10,7 +10,6 @@ import (
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
     "github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
-
 )
 
 type Repository struct {
@@ -215,4 +214,28 @@ func (r *Repository) UpdateInvoiceTransaction(ctx context.Context, pk string, sk
 	
 	return nil, err
 
+}
+
+func (r *Repository) Save(ctx context.Context, table_name *string ,inter interface{}) error {
+	fmt.Printf("Save ->  %s  \n", inter)
+
+	item, err := dynamodbattribute.MarshalMap(inter)
+	if err != nil {
+		fmt.Println("Erro marshalling: ",err.Error())
+		return err
+	}
+
+	transactItems := []*dynamodb.TransactWriteItem{}
+	transactItems = append(transactItems, &dynamodb.TransactWriteItem{Put: &dynamodb.Put{
+		TableName: table_name,
+		Item:      item,
+	}})
+
+	transaction := &dynamodb.TransactWriteItemsInput{TransactItems: transactItems}
+	if err := transaction.Validate(); err != nil {
+		return err
+	}
+
+	_, err = r.client.TransactWriteItemsWithContext(ctx, transaction)
+	return err
 }

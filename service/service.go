@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-
 )
 
 type Repository interface {
+	Save(context.Context, *string ,interface{}) error
 	AddInvoice(context.Context, interface{}) error
 	QueryInvoice(context.Context, string, string) (interface{}, error) 
 	QueryInvoiceGsi(context.Context, string, string) (interface{}, error) 
@@ -24,6 +24,10 @@ func (s *Service) AddInvoice(ctx context.Context, item interface{}) error {
 	return s.repo.AddInvoice(ctx, item)
 }
 
+func (s *Service) Save(ctx context.Context, table_name *string, item interface{}) error {
+	return s.repo.Save(ctx, table_name ,item)
+}
+
 func (s *Service) QueryInvoice(ctx context.Context, pk string, sk string) (interface{}, error)  {
 	return s.repo.QueryInvoice(ctx, pk, sk)
 }
@@ -35,3 +39,4 @@ func (s *Service) QueryInvoiceGsi(ctx context.Context, pk string, sk string) (in
 func (s *Service) UpdateInvoiceTransaction(ctx context.Context, pk string, sk string, order_id string ,amount float32)  (interface{}, error)  {
 	return s.repo.UpdateInvoiceTransaction(ctx, pk, sk, order_id, amount)
 }
+
