@@ -18,7 +18,7 @@ go run . --option load_invoice --table Invoice_Tenant
 4. Query data only pk
 aws dynamodb query --table-name Invoice_Tenant \
 	--key-condition-expression "pk= :v1" \
-	--expression-attribute-values '{ ":v1": {"S":"invoice-47"}}' \
+	--expression-attribute-values '{ ":v1": {"S":"invoice-44"}}' \
 	--return-consumed-capacity TOTAL
 
 go run . --option query_invoice --table Invoice --pk invoice-47
@@ -26,10 +26,17 @@ go run . --option query_invoice --table Invoice --pk invoice-47
 4. Query data with pk and sk
 aws dynamodb query --table-name Invoice_Tenant  \
 	--key-condition-expression "pk = :v1 AND sk = :v2" \
-	--expression-attribute-values '{ ":v1": {"S":"invoice-47"} , ":v2": #{"S":"invoice-47"} }' \
+	--expression-attribute-values '{ ":v1": {"S":"invoice-44"} , ":v2": {"S":"invoice-44"} }' \
 	--return-consumed-capacity TOTAL
 
-go run . --option query_invoice --table InvoiceT --pk invoice-94 --sk invoice invoice-94
+go run . --option query_invoice --table Invoice_Tenant --pk invoice-44 --sk invoice-44
+
+
+aws dynamodb query --table-name Invoice_Tenant  \
+	--key-condition-expression "pk = :v1 AND begins_with(sk, :v2)" \
+	--expression-attribute-values '{ ":v1": {"S":"invoice-44"} , ":v2": {"S":"order"} }' \
+	--return-consumed-capacity TOTAL
+
 
 5. Query data through GSI
 

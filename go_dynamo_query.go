@@ -50,6 +50,9 @@ func main(){
 	}
 
 	svc := dynamodb.New(sess)
+
+	fmt.Println("svc : ",svc)
+
 	repo := repository.NewRepository(svc, *table)
 	service := service.NewService(repo)
 	ctx := context.Background()
