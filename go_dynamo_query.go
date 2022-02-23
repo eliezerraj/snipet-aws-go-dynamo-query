@@ -51,8 +51,6 @@ func main(){
 
 	svc := dynamodb.New(sess)
 
-	fmt.Println("svc : ",svc)
-
 	repo := repository.NewRepository(svc, *table)
 	service := service.NewService(repo)
 	ctx := context.Background()
@@ -61,10 +59,11 @@ func main(){
 		case "load_spleinir":
 			rand.Seed(time.Now().UnixNano())
 
-			randon_i := rand.Intn(53)
+			randon_i := rand.Intn(10)
 			f := faker.New()
 			issuer := entity.Issuer{}
 			issuer.Id = "id-" + strconv.Itoa(randon_i)
+			issuer.Status = "ACTIVE"
 			issuer.Name = f.Person().Name()
 			fmt.Println(issuer)
 
@@ -79,17 +78,19 @@ func main(){
 			}
 
 			for i:=0; i < 1; i++{
-				randon_p := rand.Intn(9000000)
+				randon_p := rand.Intn(6)
 				randon_u := rand.Intn(90000)
 				person := entity.Person{}
 
 				person.Id = "person_id-" + strconv.Itoa(randon_p)
 				person.Issuer_id = "issuer_id-" + strconv.Itoa(randon_i)
 				person.Unique_Id = "unique_id-" + strconv.Itoa(randon_u)
+				person.Status = "ACTIVE"
 				person.Metada = "{ metadata... }"
 				
 				bindata.Person = person
-
+				bindata.Person_id = person.Id
+				
 				fmt.Println(person)
 
 				table_name = "person"	
@@ -101,7 +102,7 @@ func main(){
 			}
 
 			for i:=0; i < 1; i++{
-				randon_prd := rand.Intn(30000)
+				randon_prd := rand.Intn(6)
 				product := entity.Product{}
 
 				product.Id = "product_id-" + strconv.Itoa(randon_prd)
@@ -110,7 +111,8 @@ func main(){
 				product.Metada = "{ metadata... }"
 
 				bindata.Product = product
-				
+				bindata.Product_id = product.Id
+
 				fmt.Println(product)
 				table_name = "product"	
 				err := service.Save(ctx, &table_name ,product )
@@ -121,7 +123,7 @@ func main(){
 			}
 
 			for i:=0; i < 1; i++{
-				randon_acc := rand.Intn(70000)
+				randon_acc := rand.Intn(10)
 				account := entity.Account{}
 
 				account.Id = "account_id-" + strconv.Itoa(randon_acc)
@@ -130,6 +132,7 @@ func main(){
 				account.Metada = "{ metadata... }"
 
 				bindata.Account = account
+				bindata.Account_id = account.Id
 
 				fmt.Println(account)
 				table_name = "account"	
@@ -143,11 +146,31 @@ func main(){
 			for i:=0; i < 1; i++{
 				randon_bin := rand.Intn(1000000)
 
-				bindata.Id = "car_id-" + strconv.Itoa(randon_bin)
+				bindata.Id = "car_id-" + strconv.Itoa(randon_bin) + "#CREDIT"
 				bindata.Issuer_id = "issuer_id-" + strconv.Itoa(randon_i)
+				
 				bindata.Status = "ACTIVE"
 
 				fmt.Println(bindata)
+				table_name = "bind_data"	
+				err := service.Save(ctx, &table_name ,bindata )
+				if err != nil {
+					fmt.Println("Erro Store: ",err.Error())
+					os.Exit(1)
+				}
+
+				bindata.Id = "car_id-" + strconv.Itoa(randon_bin) + "#DEBIT"
+				bindata.Issuer_id = "issuer_id-" + strconv.Itoa(randon_i)
+				
+				bindata.Status = "ACTIVE"
+
+				fmt.Println(bindata)
+				table_name = "bind_data"	
+				err = service.Save(ctx, &table_name ,bindata )
+				if err != nil {
+					fmt.Println("Erro Store: ",err.Error())
+					os.Exit(1)
+				}
 			}
 
 		case "load_invoice":

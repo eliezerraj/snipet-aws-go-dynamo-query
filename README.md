@@ -13,7 +13,7 @@ AWS_ACCESS_ID: "AWS_ACCESS_ID"
 AWS_ACCESS_SECRET: "AWS_ACCESS_SECRET"
 
 3. Load data
-go run . --option load_invoice --table Invoice_Tenant
+go run . --option load_spleinir --table product
 
 4. Query data only pk
 aws dynamodb query --table-name Invoice_Tenant \
