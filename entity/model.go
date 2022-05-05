@@ -32,7 +32,6 @@ type Person struct {
 	Id 			string `json:"person_id,omitempty"`
 	Issuer_id	string `json:"issuer_id,omitempty"`
 	Unique_Id	string `json:"unique_customer_id,omitempty"`
-	Status		string `json:"status,omitempty"`
     Metada 		string `json:"metadata,omitempty"`
 	ExpirationDate	int	`json:"expiration_date,omitempty"`
 }
@@ -57,17 +56,13 @@ type Product struct {
 type Issuer struct {
 	Id 				string `json:"issuer_id,omitempty"`
 	Name			string `json:"name,omitempty"`
-	Status			string `json:"status,omitempty"`
 	Metada 			string `json:"metadata,omitempty"`
 	ExpirationDate	int	`json:"expiration_date,omitempty"`
 }
 
 type Bindata struct {
-	Id 					string 	`json:"card_id,omitempty"`
+	Id 					string 	`json:"bindate_id,omitempty"`
 	Issuer_id			string 	`json:"issuer_id,omitempty"`
-	Account_id			string 	`json:"account_id,omitempty"`
-	Product_id			string 	`json:"product_id,omitempty"`
-	Person_id			string 	`json:"person_id,omitempty"`
 	Status				string 	`json:"status,omitempty"`
 	Account  			Account `json:"account,omitmepty"`  
     Person 				Person 	`json:"person,omitempty"`

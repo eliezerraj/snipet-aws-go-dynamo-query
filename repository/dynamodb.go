@@ -233,14 +233,9 @@ func (r *Repository) Save(ctx context.Context, table_name *string ,inter interfa
 
 	transaction := &dynamodb.TransactWriteItemsInput{TransactItems: transactItems}
 	if err := transaction.Validate(); err != nil {
-		fmt.Println("Erro transaction: ",err.Error())
 		return err
 	}
 
 	_, err = r.client.TransactWriteItemsWithContext(ctx, transaction)
-	if err != nil {
-		fmt.Println("Erro TransactWriteItemsWithContext: ",err.Error())
-		return err
-	}
-	return nil
+	return err
 }
